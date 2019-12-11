@@ -6,6 +6,7 @@ use DishCheng\SaasApi\Exceptions\SaasApiException;
 use DishCheng\SaasApi\Services\SaasRequestService;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Database\Eloquent\Model;
 
@@ -102,12 +103,9 @@ class SaasApiLineModel extends Model
         if (!blank($this->request_config)) {
             $this->saas_service->request_config=$this->request_config;
         };
-        $searchData=['pageNum'=>$perPage, 'pageNo'=>$currentPage];
         $request_arr=Request::except(['page']);
-        if (!blank($request_arr)) {
-            $searchData=array_merge($searchData, $request_arr);
-        }
-        $res=$this->saas_service->GetPackageList($currentPage, $perPage, $searchData);
+        Log::info('qingqiu',$request_arr);
+        $res=$this->saas_service->GetPackageList($currentPage, $perPage, $request_arr);
         if (!$res['status']) {
             throw new SaasApiException($res['msg']);
         }
