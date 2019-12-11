@@ -239,6 +239,7 @@ class SaasRequestService extends ClientRequestService
      * 'ContactName'=>'开发测试',
      * 'ContactNumber'=>'13722222222',
      * 'AdultQuantity'=>1,
+     * 'AdultPrice'=>100,
      * ]
      *
      *

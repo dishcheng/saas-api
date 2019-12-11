@@ -127,10 +127,14 @@ class ClientRequestService
                     ];
                     break;
                 case 500:
+                    return [
+                        'status'=>false,
+                        'msg'=>self::SAAS_ERROR_TITLE.'系统错误'
+                    ];
                 default:
                     return [
                         'status'=>false,
-                        'msg'=>self::SAAS_ERROR_TITLE.'NETWORK ERROR'
+                        'msg'=>self::SAAS_ERROR_TITLE.'NETWORK ERROR。'
                     ];
                     break;
             }
