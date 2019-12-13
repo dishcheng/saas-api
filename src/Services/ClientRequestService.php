@@ -79,7 +79,11 @@ class ClientRequestService
         }
         if (is_array($res)) {
             //登录失败
-            throw new SaasApiException(self::SAAS_ERROR_TITLE.'GET SAAS TOKEN ERROR');
+            if (Arr::has($res,'msg')){
+                throw new SaasApiException($res['msg']);
+            }else{
+                throw new SaasApiException(self::SAAS_ERROR_TITLE.'GET SAAS TOKEN ERROR');
+            }
         }
     }
 
