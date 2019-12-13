@@ -103,8 +103,8 @@ class SaasApiLineModel extends Model
         if (!blank($this->request_config)) {
             $this->saas_service->request_config=$this->request_config;
         };
-        $request_arr=Request::except(['page']);
-        Log::info('qingqiu',$request_arr);
+        $request_arr=\request()->except(['page']);
+//        Log::info('qingqiu',$request_arr);
         $res=$this->saas_service->GetPackageList($currentPage, $perPage, $request_arr);
         if (!$res['status']) {
             throw new SaasApiException($res['msg']);
