@@ -182,6 +182,7 @@ class ClientRequestService
      * 千万不要在saas_post_request()中调用，登录成功接口确实返回的是字符串
      * @param $string
      * @return array
+     * @throws SaasApiException
      */
     public function formatResString($string)
     {
@@ -189,7 +190,10 @@ class ClientRequestService
             $data=json_decode($string, true);
             if (!blank($data)) {
                 if (!Arr::has($data, 'data')) {
-                    //返回数据成功的话如果没有data节点
+                    //如果没有data节点
+                    if (Arr::has($data, ['status_code', 'message'])&&$data['status_code']=='80') {
+                        throw new SaasApiException($data['message']);
+                    }
                     return ['status'=>true, 'data'=>$data];
                 } else {
                     //返回数据成功的话如果有data节点
