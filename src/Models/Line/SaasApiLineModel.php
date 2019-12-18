@@ -42,8 +42,7 @@ class SaasApiLineModel extends Model
         if (!$res['status']) {
             throw new SaasApiException($res['msg']);
         }
-        $data=$res['data'];
-        return self::newFromBuilder($data);
+        return self::newFromBuilder($res['data']);
     }
 
 
@@ -62,8 +61,7 @@ class SaasApiLineModel extends Model
         if (!$res['status']) {
             throw new SaasApiException($res['msg']);
         }
-        $data=$res['data'];
-        return self::hydrate($data);
+        return self::hydrate($res['data']);
     }
 
 
@@ -82,8 +80,7 @@ class SaasApiLineModel extends Model
         if (!$res['status']) {
             throw new SaasApiException($res['msg']);
         }
-        $data=$res['data'];
-        return self::newFromBuilder($data);
+        return self::newFromBuilder($res['data']);
     }
 
 
@@ -104,18 +101,12 @@ class SaasApiLineModel extends Model
             $this->saas_service->request_config=$this->request_config;
         };
         $request_arr=\request()->except(['page']);
-//        Log::info('qingqiu',$request_arr);
         $res=$this->saas_service->GetPackageList($currentPage, $perPage, $request_arr);
         if (!$res['status']) {
             throw new SaasApiException($res['msg']);
         }
-        if (isset($res['data']['Page']['total'])){
-            $data=[];
-            $totalCount=(int)$res['data']['Page']['total'];
-        }else{
-            $data=$res['data'];
-            $totalCount=(int)$res['Page']['total'];
-        }
+        $data=$res['data'];
+        $totalCount=(int)$res['Page']['total'];
         $dataList=static::hydrate($data);
         return new LengthAwarePaginator($dataList, $totalCount, $perPage, $currentPage);
     }

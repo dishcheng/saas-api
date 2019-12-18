@@ -178,6 +178,8 @@ class SaasRequestService extends ClientRequestService
      * ]
      * }
      * }
+     * @return array
+     * @throws SaasApiException
      */
     public function GetTeamDatePrice($PackageID)
     {
@@ -185,6 +187,7 @@ class SaasRequestService extends ClientRequestService
         $res_string=$this->saas_post_request($path, ['PackageID'=>$PackageID]);
         return $this->formatResString($res_string);
     }
+
 
     /**
      * 6，线路行程：
@@ -204,6 +207,7 @@ class SaasRequestService extends ClientRequestService
      * }
      * ]
      * }
+     * @throws SaasApiException
      */
     public function GetPackageItinerary($PackageID)
     {
@@ -217,7 +221,7 @@ class SaasRequestService extends ClientRequestService
      * 7，线路详情：
      * @param $PackageID
      * @return array
-     *
+     * @throws SaasApiException
      */
     public function GetPackageInfo($PackageID)
     {
@@ -228,10 +232,9 @@ class SaasRequestService extends ClientRequestService
 
 
     /**
-     * 8，下单接口
+     * 下单
      * @param $orderData
-     *
-     *  'OrderData'=>[
+     *  [
      * 'TaGuid'=>'11111111-1111-1111-1111-111111111111',
      * 'PackageID'=>'24f8903514adfc817afd902d07bd83dc',
      * 'TeamDate'=>'2019-12-19',
@@ -241,7 +244,6 @@ class SaasRequestService extends ClientRequestService
      * 'AdultQuantity'=>1,
      * 'AdultPrice'=>100,
      * ]
-     *
      *
      * @return array
      * {
@@ -254,6 +256,8 @@ class SaasRequestService extends ClientRequestService
      * "TotalQuantity": 1
      * }
      * }
+     * @return array
+     * @throws SaasApiException
      */
     public function OrderReserve($orderData)
     {
@@ -262,10 +266,12 @@ class SaasRequestService extends ClientRequestService
         return $this->formatResString($res_string);
     }
 
+
     /**
      * 8.取消订单
      * @param $OrderId
      * @return array
+     * @throws SaasApiException
      */
     public function OrderCancel($OrderId)
     {
@@ -278,6 +284,7 @@ class SaasRequestService extends ClientRequestService
      * 9，订单列表
      * @param $data
      * @return array
+     * @throws SaasApiException
      */
     public function GetOrderListByContact($data)
     {
