@@ -46,8 +46,8 @@ class SaasRequestService extends ClientRequestService
     public function GetPackageType()
     {
         $path=UriPathConstant::GetPackageType;
-        $res_string=$this->saas_post_request($path, []);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, []);
+//        return $this->formatResString($res_string);
     }
 
 
@@ -74,8 +74,8 @@ class SaasRequestService extends ClientRequestService
     public function GetPackageSubTypeByTypeID($PackageTypeID)
     {
         $path=UriPathConstant::GetPackageSubTypeByTypeID;
-        $res_string=$this->saas_post_request($path, ['PackageTypeID'=>$PackageTypeID]);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, ['PackageTypeID'=>$PackageTypeID]);
+//        return $this->formatResString($res_string);
     }
 
 
@@ -135,8 +135,8 @@ class SaasRequestService extends ClientRequestService
         $path=UriPathConstant::GetPackageList;
         $params['PageStart']=$PageStart;
         $params['PageSize']=$PageSize;
-        $res_string=$this->saas_post_request($path, $params);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, $params);
+//        return $this->formatResString($res_string);
     }
 
 
@@ -184,8 +184,8 @@ class SaasRequestService extends ClientRequestService
     public function GetTeamDatePrice($PackageID)
     {
         $path=UriPathConstant::GetTeamDatePrice;
-        $res_string=$this->saas_post_request($path, ['PackageID'=>$PackageID]);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, ['PackageID'=>$PackageID]);
+//        return $this->formatResString($res_string);
     }
 
 
@@ -212,8 +212,8 @@ class SaasRequestService extends ClientRequestService
     public function GetPackageItinerary($PackageID)
     {
         $path=UriPathConstant::GetPackageItinerary;
-        $res_string=$this->saas_post_request($path, ['PackageID'=>$PackageID]);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, ['PackageID'=>$PackageID]);
+//        return $this->formatResString($res_string);
     }
 
 
@@ -226,8 +226,8 @@ class SaasRequestService extends ClientRequestService
     public function GetPackageInfo($PackageID)
     {
         $path=UriPathConstant::GetPackageInfo;
-        $res_string=$this->saas_post_request($path, ['PackageID'=>$PackageID]);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, ['PackageID'=>$PackageID]);
+//        return $this->formatResString($res_string);
     }
 
 
@@ -262,8 +262,8 @@ class SaasRequestService extends ClientRequestService
     public function OrderReserve($orderData)
     {
         $path=UriPathConstant::OrderReserve;
-        $res_string=$this->saas_post_request($path, ['OrderData'=>$orderData]);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, ['OrderData'=>$orderData]);
+//        return $this->formatResString($res_string);
     }
 
 
@@ -276,8 +276,8 @@ class SaasRequestService extends ClientRequestService
     public function OrderCancel($OrderId)
     {
         $path=UriPathConstant::OrderCancel;
-        $res_string=$this->saas_post_request($path, ['OrderID'=>$OrderId]);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, ['OrderID'=>$OrderId]);
+//        return $this->formatResString($res_string);
     }
 
     /**
@@ -289,7 +289,7 @@ class SaasRequestService extends ClientRequestService
     public function GetOrderListByContact($data)
     {
         $path=UriPathConstant::GetOrderListByContact;
-        $res_string=$this->saas_post_request($path, $data);
-        return $this->formatResString($res_string);
+        return $this->saas_post_request($path, $data);
+//        return $this->formatResString($res_string);
     }
 }

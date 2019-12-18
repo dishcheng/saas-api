@@ -8,7 +8,7 @@ use Throwable;
 class SaasApiException extends Exception
 {
     const SAAS_ORDER_STATUS_CANT_UPDATE=10;//订单状态无法修改
-    const SAAS_ORDER_SIT_NUMBER_ERROR=40;//占座数目不正确
+    const SAAS_ORDER_SIT_NUMBER_ERROR=40;//占座错误
     const SAAS_PARAMS_INVALID=60;//传入参数值非法
     const SAAS_OFF_SAL_CODE=80;//线路已下架
     const SAAS_USER_TOKEN_ERROR=401;//用户信息不正确！
