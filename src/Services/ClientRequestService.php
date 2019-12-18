@@ -53,9 +53,8 @@ class ClientRequestService
             //有token，直接返回
             $data['token']=$token;
         }
-        //设定token
+        //设定token----非常重要的一步
         $this->token=$data['token'];
-
         return $data['token'];
     }
 
