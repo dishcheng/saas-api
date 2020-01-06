@@ -123,7 +123,7 @@ class ClientRequestService
                     throw new SaasApiException('系统错误');
                     break;
                 default:
-                    throw new SaasApiException('NETWORK ERROR');
+                    throw new SaasApiException('NETWORK ERROR。'.$exception->getCode());
                     break;
             }
         }
