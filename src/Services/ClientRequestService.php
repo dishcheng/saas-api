@@ -121,6 +121,7 @@ class ClientRequestService
                     break;
                 case 500:
                     throw new SaasApiException('系统错误');
+                    break;
                 default:
                     throw new SaasApiException('NETWORK ERROR');
                     break;
