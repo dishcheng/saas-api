@@ -13,11 +13,12 @@ use Illuminate\Support\Facades\Log;
  * Class ClientRequestService
  * @package App\Http\Service
  */
-class ClientRequestService
+class SaasCouponClientRequestService
 {
     const TimeOutSecond=10;
 
     public $request_config=[];
+    public $coupon_id='';
     public $token='';
 
     /**
@@ -28,21 +29,14 @@ class ClientRequestService
     public function getToken()
     {
         $data=[];
-        if (blank($this->request_config)) {
-            $request_data=[
-                'TaGuid'=>config('saas_api.TAGuid'),
-                'UserID'=>config('saas_api.saas_userId'),
-                'PassWord'=>config('saas_api.saas_password'),
-            ];
-        } else {
-            $request_config=$this->request_config;
-            $request_data=[
-                'TaGuid'=>$request_config['saas_TAGuid'],
-                'UserID'=>$request_config['saas_userID'],
-                'PassWord'=>$request_config['saas_password'],
-            ];
-        }
-        $tokenCacheKey=config('saas_api.cache_token_header').$request_data['TaGuid'].':'.$request_data['UserID'];
+        $request_config=$this->request_config;
+        $request_data=[
+            'TaGuid'=>$request_config['saas_TAGuid'],
+            'couponId'=>$request_config['couponId'],
+        ];
+        $tokenCacheKey=config('saas_api.coupon_cache_token_header')
+            .$request_data['TaGuid'].':'.
+            $this->coupon_id;
         $token=Cache::get($tokenCacheKey);
         if (blank($token)) {
             //没token，需要登录获取，有效期120分钟，120*60在减去100秒
@@ -67,7 +61,7 @@ class ClientRequestService
      */
     public function login($request_data)
     {
-        $path=UriPathConstant::Login;
+        $path=UriPathConstant::CouponChecking;
         $res=$this->saas_post_request($path, $request_data);
         if ($res['status']) {
             //请求成功
@@ -98,7 +92,7 @@ class ClientRequestService
                 $default_TaGuid=$request_config['saas_TAGuid'];
             }
             $url=$host.$path;
-            if ($path!=UriPathConstant::Login) {
+            if ($path!=UriPathConstant::CouponChecking) {
                 //只要不是登录接口就需要设定token
                 $this->getToken();
             }
