@@ -11,7 +11,7 @@ use DishCheng\SaasApi\Traits\SinglePattern;
  * Class ZwyHotelService
  * @package App\Http\Service\Zwy
  */
-class CaiSaasCouponService extends SaasCouponClientRequestService
+class BaseSaasCouponService extends SaasCouponClientRequestService
 {
     use SinglePattern;
     //存放实例对象
