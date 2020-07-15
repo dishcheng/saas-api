@@ -5,6 +5,7 @@ namespace DishCheng\SaasApi\Services;
 use DishCheng\SaasApi\Constant\UriPathConstant;
 use DishCheng\SaasApi\Exceptions\SaasApiException;
 use DishCheng\SaasApi\Traits\SinglePattern;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * SaaS系统兑换券接口
@@ -25,9 +26,20 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      * @return array
      * @throws SaasApiException
      */
-    public function CouponChecking($data)
+    public function CouponChecking($data=[])
     {
-        return $this->saas_post_request(UriPathConstant::CouponChecking, $data);
+        $data['Code']=$this->request_config['Code'];
+        $data['PassWord']=$this->request_config['PassWord'];
+        $res=$this->saas_post_request(UriPathConstant::CouponChecking, $data);
+        if ($res['status']) {
+            //请求成功
+            $tokenCacheKey=$this->getCacheKey();
+            Cache::put($tokenCacheKey, $res['data'], 7100);
+            return $res;
+        } else {
+            //失败
+            throw new SaasApiException('鉴权失败');
+        }
     }
 
 
@@ -61,7 +73,7 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      * @return array
      * @throws SaasApiException
      */
-    public function CouponUsedRecordList($data)
+    public function CouponUsedRecordList($data=[])
     {
         return $this->saas_post_request(UriPathConstant::CouponUsedRecordList, $data);
     }

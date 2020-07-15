@@ -21,6 +21,17 @@ class SaasCouponClientRequestService
     public $coupon_id='';
     public $token='';
 
+
+    public function getCacheKey()
+    {
+        $request_config=$this->request_config;
+        return config('saas_api.coupon_cache_token_header').
+            $request_config['saas_host'].':'.
+            $request_config['saas_TAGuid'].':'.
+            $request_config['Code'].':'.
+            $request_config['PassWord'];
+    }
+
     /**
      * 获取token
      * @return array
@@ -32,17 +43,15 @@ class SaasCouponClientRequestService
         $request_config=$this->request_config;
         $request_data=[
             'TaGuid'=>$request_config['saas_TAGuid'],
-            'couponId'=>$request_config['couponId'],
+            'Code'=>$request_config['Code'],
+            'PassWord'=>$request_config['PassWord'],
         ];
-        $tokenCacheKey=config('saas_api.coupon_cache_token_header')
-            .$request_data['TaGuid'].':'.
-            $this->coupon_id;
+        $tokenCacheKey=$this->getCacheKey();
         $token=Cache::get($tokenCacheKey);
         if (blank($token)) {
             //没token，需要登录获取，有效期120分钟，120*60在减去100秒
-            $res_token=$this->login($request_data);//直接返回的token字符串不能json_decode()
-            Cache::put($tokenCacheKey, $res_token, 7100);
-            $data['token']=$res_token;
+            $res=$this->login($request_data);//直接返回的token字符串不能json_decode()
+            $data['token']=$res['data'];
         } else {
             //有token，直接返回
             $data['token']=$token;
@@ -61,8 +70,8 @@ class SaasCouponClientRequestService
      */
     public function login($request_data)
     {
-        $path=UriPathConstant::CouponChecking;
-        $res=$this->saas_post_request($path, $request_data);
+        $service=BaseSaasCouponService::getInstance();
+        $res=$service->CouponChecking();
         if ($res['status']) {
             //请求成功
             return $res['data'];
@@ -133,7 +142,7 @@ class SaasCouponClientRequestService
      * @throws SaasApiException
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function post_request($url, $data=[], $type='json')
+    public function post_request($url, $data=[], $type='form_data')
     {
         $client=new \GuzzleHttp\Client();
         switch ($type) {
@@ -148,6 +157,17 @@ class SaasCouponClientRequestService
                         'json'=>$data,
                         'connect_timeout'=>self::TimeOutSecond,
                     ]);
+                break;
+            //这个得默认用form_data请求
+            case 'form_data':
+                $res=$client->request('post', $url, [
+                    'verify'=>false,
+                    'headers'=>[
+                        'Authorization'=>'Bearer '.$this->token
+                    ],
+                    'form_params'=>$data,
+                    'connect_timeout'=>self::TimeOutSecond,
+                ]);
                 break;
             default:
                 throw new SaasApiException('request请求类型错误');
@@ -173,18 +193,15 @@ class SaasCouponClientRequestService
                 }
                 if ($data['status_code']==0) {
                     //请求成功
-
                     $res_data=[];
                     if (isset($data['token'])) {
                         //登录返回的数据节点是token
                         $res_data=$data['token'];
                     }
-
                     if (isset($data['data'])) {
                         //其他请求成功返回的数据节点是data
                         $res_data=$data['data'];
                     }
-
                     $res=['status'=>true, 'data'=>$res_data];
                     if (isset($data['Page'])) {
                         //如果有分页数据
