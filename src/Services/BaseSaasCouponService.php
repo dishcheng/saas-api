@@ -58,7 +58,6 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      * @param $data
      * @return array
      * [
-     *  "status": true,
      *  'data'=>[
      *    "code": "20200110",
      *    "surplus_amount": 10000,
@@ -73,7 +72,7 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      * ]
      * @throws SaasApiException
      */
-    public function CouponInfo($data)
+    public function CouponInfo($data=[])
     {
         return $this->saas_post_request(UriPathConstant::CouponInfo, $data);
     }
@@ -84,7 +83,6 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      * @param $data
      * @return array
      * [
-     *  "status": true,
      *  'data'=>[{
      *     "code": "20200110",
      *     "couponType": "recharge",
@@ -119,6 +117,9 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
     /**
      * 9.6，撤销兑换券使用
      * @param $data
+     * [
+     *  'id'=>'',//使用记录id必填
+     * ]
      * @return array
      * @throws SaasApiException
      */
