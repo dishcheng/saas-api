@@ -2,6 +2,7 @@
 
 namespace DishCheng\SaasApi\Services;
 
+use App\Exceptions\ApiCommonException;
 use DishCheng\SaasApi\Constant\UriPathConstant;
 use DishCheng\SaasApi\Exceptions\SaasApiException;
 use DishCheng\SaasApi\Traits\SinglePattern;
@@ -46,10 +47,16 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      * ]
      * @return array
      * @throws SaasApiException
+     * @throws SaasApiException
      */
     public function CouponPasswordModify($data)
     {
-        return $this->saas_post_request(UriPathConstant::CouponPasswordModify, $data);
+        if (!isset($data['newpassword'])) {
+            throw new SaasApiException('缺少newpassword参数');
+        }
+        $res=$this->saas_post_request(UriPathConstant::CouponPasswordModify, $data);
+        Cache::forget($this->getCacheKey());
+        return $res;
     }
 
 
@@ -110,6 +117,9 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      */
     public function CouponUse($data)
     {
+        if ($this->request_config['PassWord']=='123456') {
+            throw new SaasApiException('初始密码无法使用优惠券[LD]');
+        }
         return $this->saas_post_request(UriPathConstant::CouponUse, $data);
     }
 
