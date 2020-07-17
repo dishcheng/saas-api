@@ -50,7 +50,8 @@ class SaasCouponClientRequestService
         $token=Cache::get($tokenCacheKey);
         if (blank($token)) {
             //没token，需要登录获取，有效期120分钟，120*60在减去100秒
-            $res=$this->login($request_data);//直接返回的token字符串不能json_decode()
+            $service=BaseSaasCouponService::getInstance();
+            $res=$service->CouponChecking();
             $data['token']=$res['data'];
         } else {
             //有token，直接返回
@@ -60,27 +61,6 @@ class SaasCouponClientRequestService
         $this->token=$data['token'];
         return $data['token'];
     }
-
-
-    /**
-     * 发起登录，直接返回token字符串
-     * @param $request_data
-     * @return array|string
-     * @throws SaasApiException
-     */
-    public function login($request_data)
-    {
-        $service=BaseSaasCouponService::getInstance();
-        $res=$service->CouponChecking();
-        if ($res['status']) {
-            //请求成功
-            return $res['data'];
-        } else {
-            //失败
-            throw new SaasApiException('鉴权失败');
-        }
-    }
-
 
     /**
      * saas post请求
@@ -202,7 +182,7 @@ class SaasCouponClientRequestService
                         //其他请求成功返回的数据节点是data
                         $res_data=$data['data'];
                     }
-                    $res=['status'=>true, 'data'=>$res_data];
+                    $res=['data'=>$res_data];
                     if (isset($data['Page'])) {
                         //如果有分页数据
                         $res['Page']=$data['Page'];
