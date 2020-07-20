@@ -40,12 +40,6 @@ class SaasCouponClientRequestService
     public function getToken()
     {
         $data=[];
-        $request_config=$this->request_config;
-        $request_data=[
-            'TaGuid'=>$request_config['saas_TAGuid'],
-            'Code'=>$request_config['Code'],
-            'PassWord'=>$request_config['PassWord'],
-        ];
         $tokenCacheKey=$this->getCacheKey();
         $token=Cache::get($tokenCacheKey);
         if (blank($token)) {
