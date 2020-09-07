@@ -15,7 +15,7 @@ class UriPathConstant
     const OrderReserve='api/OrderReserve';//8，下单接口：
     const OrderCancel='api/OrderCancel';//8.1，下单取消接口：
     const GetOrderListByContact='api/GetOrderListByContact';//9，订单列表(好像没了)
-    //SaaS系统兑换券接口说明(注意9.1拿到的token在9.2-9.6使用)
+    //SaaS系统兑换券接口说明(注意9.1拿到的token在9.2-9.5使用,9.6不用token)
     const CouponChecking='api/CouponChecking';//9.1，兑换券登录验证
     const CouponPasswordModify='api/CouponPasswordModify';//9.2，修改兑换券密码
     const CouponInfo='api/CouponInfo';//9.3，获取兑换券信息

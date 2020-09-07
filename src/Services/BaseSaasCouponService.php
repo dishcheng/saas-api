@@ -129,6 +129,7 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      * @param $data
      * [
      *  'id'=>'',//使用记录id必填
+     *  'ordersecretkey'=>'',//撤销密钥(使用时获取)
      * ]
      * @return array
      * @throws SaasApiException

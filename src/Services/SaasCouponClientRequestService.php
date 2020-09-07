@@ -75,8 +75,12 @@ class SaasCouponClientRequestService
                 $default_TaGuid=$request_config['saas_TAGuid'];
             }
             $url=$host.$path;
-            if ($path!=UriPathConstant::CouponChecking) {
-                //只要不是登录接口就需要设定token
+
+            if (!in_array($path, [
+                UriPathConstant::CouponChecking,
+                UriPathConstant::CouponClearUse,
+            ])) {
+                //不鉴权接口
                 $this->getToken();
             }
             if (!Arr::has($data, 'TaGuid')) {
