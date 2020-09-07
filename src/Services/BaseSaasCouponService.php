@@ -111,6 +111,7 @@ class BaseSaasCouponService extends SaasCouponClientRequestService
      * [
      *    'amount'=>'',//使用金额，必填
      *    'remark'=>'',//备注
+     *    'ordernumber'=>'',//旅得使用订单号
      * ]
      * @return array
      * @throws SaasApiException
